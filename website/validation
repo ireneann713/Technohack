@@ -1,0 +1,11 @@
+def validation_step(self, batch: dict, _batch_idx: int) -> Dict[str, Tensor]:
+    inputs, labels = batch['image'], batch['mask']
+    labels = labels.flatten()
+    outputs = self.forward(inputs)
+    loss = self.crossEntropyLoss(outputs, labels)
+    
+    _, outputs = torch.max(outputs, dim=1)
+    valAcc = accuracy_score(outputs.cpu(), labels.cpu())
+    valAcc = torch.tensor(valAcc)
+    
+    return {'val_loss': loss, 'val_acc':valAcc}

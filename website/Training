@@ -1,0 +1,8 @@
+def training_step(self, batch: dict, _batch_idx: int) -> Dict[str, Tensor]:
+    inputs, labels = batch['image'], batch['mask']
+    labels = labels.flatten()
+    outputs = self.forward(inputs)
+    loss = self.crossEntropyLoss(outputs, labels)
+    
+    tensorboardLogs = {'train_loss': loss}
+    return {'loss': loss, 'log': tensorboardLogs}
