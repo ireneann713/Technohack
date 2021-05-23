@@ -1,0 +1,6 @@
+def validation_epoch_end(self, outputs: List[Dict[str, Tensor]]) \
+        -> Dict[str, Union[Tensor, Dict[str, Tensor]]]:
+    avgLoss = torch.stack([x['val_loss'] for x in outputs]).mean()
+    avgAcc = torch.stack([x['val_acc'] for x in outputs]).mean()
+    tensorboardLogs = {'val_loss': avgLoss, 'val_acc':avgAcc}
+    return {'val_loss': avgLoss, 'log': tensorboardLogs}
